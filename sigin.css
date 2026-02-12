@@ -1,0 +1,173 @@
+:root {
+  --primary-color: rgb(238, 109, 34);
+  --primary-hover: rgb(210, 85, 20);
+  --bg-color: #fdf2e9;
+  --text-gray: rgba(88, 87, 87, 0.9);
+}
+
+* {
+  box-sizing: border-box; /* Fixes padding overflow issues */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px; /* Slightly wider for better desktop look */
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  font-size: 28px;
+  color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 35px;
+}
+
+.title::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  left: 0;
+  background-color: var(--primary-color);
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  left: 0;
+  background-color: var(--primary-color);
+  animation: pulse 1.5s ease-out infinite;
+}
+
+.message {
+  color: var(--text-gray);
+  font-size: 14.5px;
+  margin-bottom: 5px;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+}
+
+.form label {
+  position: relative;
+  width: 100%;
+}
+
+.form label .input {
+  width: 100%;
+  padding: 15px 12px 10px 12px; /* Adjusted for floating label space */
+  outline: 0;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px; /* Prevents auto-zoom on mobile */
+}
+
+/* Floating Label Logic */
+.form label .input + span {
+  position: absolute;
+  left: 12px;
+  top: 14px;
+  color: #999;
+  font-size: 15px;
+  cursor: text;
+  transition: all 0.2s ease;
+  pointer-events: none; /* Allows click through to input */
+}
+
+/* Move label UP on focus/valid */
+.form label .input:focus + span,
+.form label .input:not(:placeholder-shown) + span {
+  top: -8px;
+  left: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+  background-color: white;
+  padding: 0 5px;
+}
+
+.submit {
+  border: none;
+  background-color: var(--primary-color);
+  padding: 14px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-top: 5px;
+}
+
+.submit:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.signin {
+  text-align: center;
+  color: var(--text-gray);
+  font-size: 14px;
+}
+
+.signin a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signin a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE BREAKPOINT */
+@media (max-width: 480px) {
+  .flex {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}

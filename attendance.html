@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance section</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --primary: #ff6b00;
+        --bg: #fff5ed;
+        --text: #4a2c2a;
+      }
+
+      body {
+        background: var(--bg);
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 50px;
+        min-height: 100vh;
+      }
+
+      /* Container ab bada hai laptop ke liye */
+      .container {
+        width: 90%;
+        max-width: 1000px; /* Laptop par failne ke liye width badha di */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Do columns: Ek side timer, ek side graph */
+        gap: 30px;
+      }
+
+      @media (max-width: 800px) {
+        .container {
+          grid-template-columns: 1fr;
+        } /* Mobile par wapas ek ke niche ek */
+      }
+
+      .card {
+        background: white;
+        border-radius: 30px;
+        padding: 35px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .live-badge {
+        color: #4caf50;
+        font-size: 14px;
+        font-weight: 800;
+        display: none;
+        background: #e8f5e9;
+        padding: 5px 12px;
+        border-radius: 15px;
+      }
+
+      .progress-circle {
+        position: relative;
+        width: 100px;
+        height: 100px;
+      }
+      .perc {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: 800;
+        color: var(--primary);
+        font-size: 20px;
+      }
+
+      .stats-grid {
+        display: flex;
+        background: #fff9f5;
+        border-radius: 20px;
+        padding: 25px;
+        margin: 25px 0;
+        border: 1px solid #fdf2ea;
+      }
+      .box {
+        flex: 1;
+        text-align: center;
+      }
+      .box small {
+        color: #a08d8b;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .box b {
+        font-size: 24px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 20px;
+        border-radius: 20px;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 18px;
+        transition: 0.3s;
+      }
+      .check-in {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 10px 20px rgba(255, 107, 0, 0.2);
+      }
+      .check-out {
+        background: #ff4d4d;
+        color: white;
+        box-shadow: 0 10px 20px rgba(255, 77, 77, 0.2);
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        opacity: 0.9;
+      }
+
+      .weekly-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      .reset-link {
+        font-size: 12px;
+        color: #bbb;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 15px;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="header">
+          <div>
+            <h2 style="margin: 0; font-size: 26px">
+              Today's Session
+              <span id="liveTag" class="live-badge">● LIVE</span>
+            </h2>
+            <p
+              id="currentDate"
+              style="color: #a08d8b; font-size: 16px; margin: 8px 0"
+            ></p>
+          </div>
+          <div class="progress-circle">
+            <svg width="100" height="100">
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="#f0e4dc"
+                stroke-width="8"
+                fill="none"
+              />
+              <circle
+                id="ring"
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="var(--primary)"
+                stroke-width="8"
+                fill="none"
+                stroke-dasharray="282.7"
+                stroke-dashoffset="282.7"
+                style="
+                  transition: 0.6s;
+                  transform: rotate(-90deg);
+                  transform-origin: center;
+                "
+              />
+            </svg>
+            <span id="percentTxt" class="perc">0%</span>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="box">
+            <small>Studied</small
+            ><b id="timeDisplay" style="color: #4caf50">0h 0m</b>
+          </div>
+          <div style="width: 2px; background: #eee0d5; margin: 0 20px"></div>
+          <div class="box">
+            <small>Goal</small><b style="color: #3b5998">8h 0m</b>
+          </div>
+        </div>
+
+        <button id="toggleBtn" class="btn check-in">Check In</button>
+        <div class="reset-link" onclick="resetAllData()">Reset All Data</div>
+      </div>
+
+      <div class="card">
+        <div class="weekly-header">
+          <span>Weekly Progress</span>
+          <span
+            style="
+              font-size: 12px;
+              background: #e3f2fd;
+              color: #1e88e5;
+              padding: 6px 15px;
+              border-radius: 12px;
+            "
+            >Weekly Goal: 8h/day</span
+          >
+        </div>
+        <canvas id="weeklyChart" style="max-height: 280px"></canvas>
+      </div>
+    </div>
+    <script src="tracker.js"></script>
+    <script>
+      let seconds = 0,
+        timer = null,
+        isRunning = false;
+      const goalSecs = 8 * 3600;
+      const dayIndex = (new Date().getDay() + 6) % 7;
+
+      let studyLogs = JSON.parse(localStorage.getItem("study_logs")) || [
+        0, 0, 0, 0, 0, 0, 0,
+      ];
+      seconds = Math.floor(studyLogs[dayIndex] * 3600);
+
+      document.getElementById("currentDate").innerText =
+        new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        });
+
+      const ctx = document.getElementById("weeklyChart").getContext("2d");
+      const chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [
+            {
+              label: "Hours Studied",
+              data: studyLogs,
+              backgroundColor: "#ff6b00",
+              borderRadius: 10,
+              barThickness: 30,
+            },
+          ],
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, max: 8, ticks: { font: { size: 14 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 14 } } },
+          },
+        },
+      });
+
+      function sync() {
+        let hrs = Math.floor(seconds / 3600);
+        let mins = Math.floor((seconds % 3600) / 60);
+        document.getElementById("timeDisplay").innerText = `${hrs}h ${mins}m`;
+
+        let p = Math.min((seconds / goalSecs) * 100, 100);
+        document.getElementById("percentTxt").innerText = Math.floor(p) + "%";
+        // Circumference for r=45 is 282.7
+        document.getElementById("ring").style.strokeDashoffset =
+          282.7 - (p / 100) * 282.7;
+
+        studyLogs[dayIndex] = Number((seconds / 3600).toFixed(2));
+        chart.data.datasets[0].data = studyLogs;
+        chart.update("none");
+      }
+
+      document.getElementById("toggleBtn").onclick = function () {
+        isRunning = !isRunning;
+        if (isRunning) {
+          this.innerText = "Check Out";
+          this.className = "btn check-out";
+          document.getElementById("liveTag").style.display = "inline";
+          timer = setInterval(() => {
+            seconds++;
+            sync();
+          }, 1000);
+        } else {
+          this.innerText = "Check In";
+          this.className = "btn check-in";
+          document.getElementById("liveTag").style.display = "none";
+          clearInterval(timer);
+          localStorage.setItem("study_logs", JSON.stringify(studyLogs));
+        }
+      };
+
+      function resetAllData() {
+        if (confirm("Saara data delete kardein?")) {
+          localStorage.removeItem("study_logs");
+          location.reload();
+        }
+      }
+
+      sync();
+    </script>
+  </body>
+</html>

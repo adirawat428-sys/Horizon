@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signin section</title>
+    <link rel="stylesheet" href="sigin.css" />
+  </head>
+  <body>
+    <form class="form" id="registerForm">
+      <div class="title">Register</div>
+      <p class="message">Signup now and get full access.</p>
+
+      <div class="flex">
+        <label>
+          <input
+            required=""
+            placeholder=""
+            type="text"
+            class="input"
+            autocomplete="given-name"
+          />
+          <span>Firstname</span>
+        </label>
+
+        <label>
+          <input
+            required=""
+            placeholder=""
+            type="text"
+            class="input"
+            autocomplete="family-name"
+          />
+          <span>Lastname</span>
+        </label>
+      </div>
+
+      <label>
+        <input
+          required=""
+          placeholder=""
+          type="email"
+          class="input"
+          autocomplete="email"
+        />
+        <span>Email</span>
+      </label>
+
+      <label>
+        <input
+          required=""
+          placeholder=""
+          type="password"
+          class="input"
+          id="pass"
+        />
+        <span>Password</span>
+      </label>
+      <label>
+        <input
+          required=""
+          placeholder=""
+          type="password"
+          class="input"
+          id="confirm_pass"
+        />
+        <span>Confirm password</span>
+      </label>
+
+      <button type="submit" class="submit">Submit</button>
+      <p class="signin">Already have an account? <a href="#">Signin</a></p>
+    </form>
+
+    <script>
+      const form = document.getElementById("registerForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const password = document.getElementById("pass").value;
+        const confirmPassword = document.getElementById("confirm_pass").value;
+
+        // Strict Check: Agar password match nahi hua toh stop
+        if (password !== confirmPassword) {
+          alert("password doesn't match!");
+          return;
+        }
+
+        alert("Registration Successful!");
+
+        // Yahan 'home.html' likha hai, ensure karo file ka naam yahi ho
+        window.location.href = "index.html";
+      });
+    </script>
+  </body>
+</html>

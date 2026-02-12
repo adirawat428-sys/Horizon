@@ -1,0 +1,213 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(180deg, #fff1e6 0%, #fff8f2 50%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+}
+
+/* APP */
+.app {
+  width: 100%;
+  max-width: 430px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fffaf5;
+  border-left: 1px solid #f0d8c2;
+  border-right: 1px solid #f0d8c2;
+}
+
+/* MAIN — PEACH BACKGROUND FIX */
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #fff1e3 0%, #fff6ee 45%, #ffffff 100%);
+}
+
+/* EMPTY STATE */
+.empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f2a86d;
+  text-align: center;
+}
+
+.empty i {
+  font-size: 92px;
+  margin-bottom: 12px;
+  color: #f6b37c;
+}
+
+.empty p {
+  font-size: 14px;
+  color: #d19a6a;
+}
+
+/* CARD */
+.card {
+  background: #fff3e6;
+  border-left: 6px solid #f99006;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+  box-shadow: 0 8px 18px rgba(255, 153, 6, 0.12);
+  animation: fadeUp 0.25s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card h4 {
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #f07a0c;
+}
+
+.card p {
+  font-size: 13px;
+  color: #7a5c48;
+}
+
+/* CARD ICON */
+.card .icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 21px;
+  cursor: pointer;
+}
+
+/* PRIORITY */
+.high {
+  border-color: #ef4444;
+}
+.medium {
+  border-color: #f59e0b;
+}
+.low {
+  border-color: #22c55e;
+}
+
+/* COMPLETED */
+.completed {
+  background: #fffbe6;
+  border-color: #22c55e;
+}
+
+.completed h4 {
+  color: #22c55e;
+}
+
+/* NAV */
+nav {
+  height: 80px;
+  background: #ffffff;
+  border-top: 1px solid #ffe2c7;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tab {
+  text-align: center;
+  color: #b07646;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tab.active {
+  color: #f99006;
+}
+
+/* PLUS BUTTON */
+.plus {
+  background: linear-gradient(135deg, #f99006, #ffb36b);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -28px;
+  box-shadow: 0 10px 22px rgba(255, 153, 6, 0.45);
+}
+
+/* MODAL */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.sheet {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 430px;
+  background: #fffaf5;
+  border-radius: 24px 24px 0 0;
+  padding: 22px;
+  box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* INPUTS */
+input,
+select {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ffd6b3;
+  background: #fff3e6;
+}
+
+/* ACTIONS */
+.row,
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  flex: 1;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.add {
+  background: linear-gradient(135deg, #f99006, #ffb36b);
+  color: #fff;
+}
+
+.cancel {
+  border: 1px solid #f99006;
+  background: #fff;
+  color: #f99006;
+}

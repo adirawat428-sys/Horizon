@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reports section</title>
+    <style>
+      :root {
+        --primary: #f26d21;
+        --light: #fff1e7;
+        --bg: #fdf8f4;
+        --dark: #4a2b1d;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--dark);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .report-card {
+        background: white;
+        width: 95%;
+        max-width: 450px;
+        padding: 25px;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      h1 {
+        font-size: 20px;
+        color: var(--primary);
+        margin: 0 0 20px 0;
+      }
+
+      .stats-header {
+        background: var(--light);
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+      .average {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .sub {
+        font-size: 13px;
+        color: #8d7a71;
+      }
+
+      .chart {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        height: 120px;
+        gap: 8px;
+        border-bottom: 2px solid #eee;
+        position: relative;
+      }
+      .bar {
+        flex: 1;
+        background: #eee;
+        border-radius: 5px 5px 0 0;
+        height: 5px;
+        transition: height 0.5s ease;
+        position: relative;
+      }
+      .bar.active {
+        background: var(--primary);
+        box-shadow: 0 4px 12px rgba(242, 109, 33, 0.3);
+      }
+
+      .days {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        margin: 8px 0 20px;
+        font-weight: 600;
+        color: #888;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 14px;
+      }
+      .info-row span:last-child {
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .btn {
+        display: block;
+        background: var(--primary);
+        color: white;
+        text-align: center;
+        padding: 14px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        border: none;
+        width: 100%;
+      }
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+
+      #scheduleSection {
+        display: none;
+        margin-top: 20px;
+        width: 95%;
+        max-width: 450px;
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        animation: slideUp 0.4s ease;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th {
+        text-align: left;
+        color: var(--primary);
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--light);
+      }
+      td {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .reset-btn {
+        background: #ffeded;
+        color: #ff4d4d;
+        font-size: 10px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        margin-top: 10px;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="report-card">
+      <button class="reset-btn" onclick="manualReset()">Reset All</button>
+      <h1>Today's Progress</h1>
+
+      <div class="stats-header">
+        <div class="average" id="avgDisplay">0 hr 0 min</div>
+        <div class="sub">Weekly daily average</div>
+      </div>
+
+      <div class="chart" id="chart"></div>
+      <div class="days">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span
+        ><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+
+      <div class="info-row">
+        <span>Time Spent Today</span><span id="todayDisplay">0 hr 0 min</span>
+      </div>
+      <div class="info-row">
+        <span>Last 7 Days Total</span><span id="weekDisplay">0 hr 0 min</span>
+      </div>
+
+      <button class="btn" onclick="toggleSchedule()">View Full Schedule</button>
+    </div>
+
+    <div id="scheduleSection">
+      <h3>Weekly Breakdown</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Focus Time</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+    </div>
+    <script src="tracker.js"></script>
+  </body>
+</html>

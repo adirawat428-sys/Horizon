@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scheduled section</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #ff7a00;
+        --primary-light: #fff5ec;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .dashboard-container {
+        width: 100%;
+        max-width: 1100px;
+        display: grid;
+        grid-template-columns: 1.8fr 1fr;
+        gap: 25px;
+      }
+
+      @media (max-width: 900px) {
+        .dashboard-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: 28px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+        border: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+
+      h3 {
+        margin: 0 0 20px 0;
+        color: var(--text-main);
+        font-weight: 800;
+        font-size: 20px;
+      }
+
+      /* ===== PLANNER SECTION ===== */
+      .planner-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .add-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px;
+        background: var(--primary-light);
+        border-radius: 20px;
+        margin-bottom: 12px;
+      }
+
+      .task-item.completed {
+        opacity: 0.5;
+        text-decoration: line-through;
+        background: #f1f5f9;
+      }
+
+      /* ===== QUOTE CARD (NEW) ===== */
+      .quote-card {
+        background: linear-gradient(135deg, #ff7a00 0%, #ff9f43 100%);
+        color: white;
+        text-align: center;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .quote-text {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        font-style: italic;
+      }
+
+      .quote-author {
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.9;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+      }
+
+      /* Progress Styles */
+      .progress-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .circle {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: var(--primary);
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+      }
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 24px;
+        width: 350px;
+      }
+      .modal-content input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1.5px solid #eee;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <div class="card">
+        <div class="planner-header">
+          <h3>📅 Daily Study Planner</h3>
+          <button
+            class="add-btn"
+            onclick="document.getElementById('modal').style.display = 'flex'"
+          >
+            + Add Task
+          </button>
+        </div>
+        <div id="task-list"></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 25px">
+        <div class="card quote-card">
+          <div style="font-size: 30px; margin-bottom: 10px">⚡</div>
+          <div class="quote-text" id="quote-display">
+            "Loading your motivation..."
+          </div>
+          <div class="quote-author" id="author-display">Focus Buddy</div>
+        </div>
+
+        <div class="card">
+          <h3>Today's Progress</h3>
+          <div class="progress-box">
+            <div class="circle" id="percent">0%</div>
+            <div>
+              <p style="margin: 0; font-weight: 700">Consistency is Key!</p>
+              <p
+                style="margin: 0; color: var(--text-muted); font-size: 13px"
+                id="stat-text"
+              >
+                0/0 Tasks done
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h3>New Session</h3>
+        <input type="text" id="t-time" placeholder="Time (e.g. 10:00 AM)" />
+        <input type="text" id="t-desc" placeholder="Subject Name" />
+        <button
+          onclick="saveTask()"
+          class="add-btn"
+          style="width: 100%; margin-top: 10px"
+        >
+          Save
+        </button>
+        <button
+          onclick="document.getElementById('modal').style.display = 'none'"
+          style="
+            background: none;
+            border: none;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            color: var(--text-muted);
+          "
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <script src="tracker.js"></script>
+    <script>
+      // 1. MOTIVATIONAL QUOTES SYSTEM
+      const quotes = [
+        {
+          text: "Success is the sum of small efforts, repeated day in and day out.",
+          author: "Robert Collier",
+        },
+        {
+          text: "Don't watch the clock; do what it does. Keep going.",
+          author: "Sam Levenson",
+        },
+        {
+          text: "The future belongs to those who believe in the beauty of their dreams.",
+          author: "Eleanor Roosevelt",
+        },
+        {
+          text: "The only way to do great work is to love what you do.",
+          author: "Steve Jobs",
+        },
+        {
+          text: "Believe you can and you're halfway there.",
+          author: "Theodore Roosevelt",
+        },
+        {
+          text: "It does not matter how slowly you go as long as you do not stop.",
+          author: "Confucius",
+        },
+        {
+          text: "The expert in anything was once a beginner.",
+          author: "Helen Hayes",
+        },
+        { text: "Don't stop until you're proud.", author: "Motivation" },
+        {
+          text: "Success is not final, failure is not fatal: It is the courage to continue that counts. ",
+          author: "Winston Churchill",
+        },
+        {
+          text: "Hard work beats talent when talent doesn't work hard.",
+          author: "Tim Notke",
+        },
+        {
+          text: "Your limitation—it's only your imagination.",
+          author: "Motivation",
+        },
+        {
+          text: "Your future depends on what you do today.",
+          author: "Mahatma Gandhi",
+        },
+        { text: "Small progress is still progress.", author: "Keep Going" },
+      ];
+
+      function setRandomQuote() {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById("quote-display").innerText =
+          `"${randomQuote.text}"`;
+        document.getElementById("author-display").innerText =
+          randomQuote.author;
+      }
+
+      // 2. PLANNER LOGIC
+      const taskList = document.getElementById("task-list");
+      let myTasks = JSON.parse(localStorage.getItem("studyTasks")) || [
+        { time: "08:00 AM", desc: "Maths Revision", done: false },
+      ];
+
+      function render() {
+        taskList.innerHTML = "";
+        let doneCount = 0;
+        myTasks.forEach((t, i) => {
+          if (t.done) doneCount++;
+          taskList.innerHTML += `
+                    <div class="task-item ${t.done ? "completed" : ""}">
+                        <div>
+                            <div class="task-time">${t.time}</div>
+                            <div class="task-desc">${t.desc}</div>
+                        </div>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="checkbox" ${t.done ? "checked" : ""} onclick="toggle(${i})" style="width:20px; height:20px; accent-color:#FF7A00; cursor:pointer;">
+                            <button onclick="del(${i})" style="background:none; border:none; cursor:pointer; font-size:18px;">🗑️</button>
+                        </div>
+                    </div>
+                `;
+        });
+        const percent =
+          myTasks.length > 0
+            ? Math.round((doneCount / myTasks.length) * 100)
+            : 0;
+        document.getElementById("percent").innerText = percent + "%";
+        document.getElementById("stat-text").innerText =
+          `${doneCount}/${myTasks.length} Tasks done`;
+        localStorage.setItem("studyTasks", JSON.stringify(myTasks));
+      }
+
+      function saveTask() {
+        const time = document.getElementById("t-time").value;
+        const desc = document.getElementById("t-desc").value;
+        if (time && desc) {
+          myTasks.push({ time, desc, done: false });
+          render();
+          document.getElementById("modal").style.display = "none";
+          document.getElementById("t-time").value = "";
+          document.getElementById("t-desc").value = "";
+        }
+      }
+
+      function toggle(i) {
+        myTasks[i].done = !myTasks[i].done;
+        render();
+      }
+      function del(i) {
+        myTasks.splice(i, 1);
+        render();
+      }
+
+      // Initial Load
+      setRandomQuote();
+      render();
+    </script>
+  </body>
+</html>
