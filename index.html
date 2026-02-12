@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOrizon Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="horizon.png" alt="Taskify Logo" />
+      </div>
+
+      <nav class="menu">
+        <div class="nav-links">
+          <a href="#" class="active"
+            ><i class="fa-solid fa-house"></i> Dashboard</a
+          >
+          <a href="attendance.html">
+            <i class="fa-solid fa-clipboard-user"></i> Attendance</a
+          >
+          <a href="reports.html"
+            ><i class="fa-solid fa-file-invoice"></i> Reports</a
+          >
+          <a href="reminder.html"><i class="fa-solid fa-bell"></i> Reminder</a>
+          <a href="setting.html"><i class="fa-solid fa-gear"></i> Settings</a>
+        </div>
+
+        <div class="sidebar-footer">
+          <a href="sigin.html" class="sign-in-btn">Sign in</a>
+          <div class="support-dropdown">
+            <button class="support-trigger">
+              <i class="fa-solid fa-headset"></i>
+              <span>Support</span>
+              <i class="fa-solid fa-chevron-up"></i>
+            </button>
+            <div class="support-content">
+              <a href="tel:00000011132"
+                ><i class="fa-solid fa-phone"></i> 000-000-11132</a
+              >
+              <a href="#"><i class="fa-solid fa-clock"></i> 8:30AM - 5PM PST</a>
+              <a href="https://horizon.io"
+                ><i class="fa-solid fa-globe"></i> Horizon.io</a
+              >
+            </div>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="welcome-banner">
+        <div class="welcome-text">
+          <h1>Today's Tasks</h1>
+          <p>Check your daily tasks and schedules for today.</p>
+        </div>
+        <a href="scheduled.html">
+          <button class="btn-primary">View Schedule</button>
+        </a>
+      </section>
+
+      <div class="focus-section">
+        <h2>Focus Mode</h2>
+        <div class="timer-tabs">
+          <button class="tab active" data-type="focus">🍓 Focus</button>
+          <button class="tab" data-type="short">☕ Short Break</button>
+          <button class="tab" data-type="long">🌿 Long Break</button>
+        </div>
+        <input id="focusInput" type="number" value="25" />
+        <input id="shortInput" type="number" value="5" />
+        <input id="longInput" type="number" value="15" />
+
+        <div class="custom-time">
+          <input type="number" id="minuteInput" min="1" value="25" />
+          <span>Minutes</span>
+          <button id="applyTime">Set</button>
+        </div>
+
+        <div class="subtitle">Deep work mode activated</div>
+        <div class="circle" id="progressCircle">
+          <div class="inner">
+            <div class="time" id="time">25:00</div>
+            <div class="session" id="session">Session 1</div>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="reset" onclick="resetTimer()">⟳ Reset</button>
+          <button class="play" onclick="toggleTimer()" id="playBtn">
+            ▶ Start
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <aside class="right-panel">
+      <section class="user-profile">
+        <img
+          id="homeAvatar"
+          src="https://i.pravatar.cc/150?u=namjoon"
+          alt="Profile"
+        />
+        <h4 id="homeUserName">Mitshua</h4>
+        <span class="badge">Student</span>
+      </section>
+
+      <section class="todo-section">
+        <h5 class="section-title">To-Do List</h5>
+        <div class="todo-input-group">
+          <input type="text" id="task-input" placeholder="Add a new task..." />
+          <button id="add-btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <ul id="task-list"></ul>
+      </section>
+    </aside>
+
+    <!-- ===== AI CHAT BUTTON ===== -->
+    <button id="open-chat">💬</button>
+    <div id="chat-box">
+      <div id="messages">
+        <div class="msg ai-msg">Hii 👋 I am your Study Buddy 📚✨ <br /></div>
+      </div>
+
+      <div id="input-area">
+        <input id="user-input" placeholder="Ask your doubt..." />
+        <button class="send" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <!-- AI CHAT SCRIPT -->
+    <script src="aichat.js"></script>
+
+    <script src="home.js"></script>
+    <script src="tracker.js"></script>
+  </body>
+</html>
