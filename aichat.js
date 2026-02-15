@@ -1,6 +1,6 @@
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 const API_KEY =
-  "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";
+  "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";
 
 const messages = [
   {
@@ -76,4 +76,5 @@ input.addEventListener("keypress", (e) => {
     sendMessage();
   }
 });
+
 
